@@ -1,9 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Wendy+One&display=swap');
+@import "../fonts/fonts.css";
 
 * {
     font-family: 'Wendy One', sans-serif;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 body {
@@ -16,4 +17,305 @@ body {
     align-items: center;
     justify-content: center;
     background: #e7e7b7;
+}
+
+#wrapper {
+    width: 980px;
+    height: 630px;
+    //background-image: ;
+    position: relative;
+    background: -webkit-linear-gradient(225deg, rgb(20, 149, 133), rgb(0, 107, 95));
+    background: -moz-linear-gradient(225deg, rgb(20, 149, 133), rgb(0, 107, 95));
+    background: linear-gradient(225deg, rgb(20, 149, 133), rgb(0, 107, 95));
+}
+.game {
+
+    &__bg {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background: url("../images/map.png");
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
+
+    //&__path {
+    //    position: absolute;
+    //    width: 100%;
+    //    height: 100%;
+    //    top: 0;
+    //    left: 0;
+    //    background: url("../images/path.png");
+    //    background-repeat: no-repeat;
+    //    background-size: contain;
+    //}
+
+    &__navigation {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        z-index: 10;
+        width: 100%;
+        padding: 0 16px 14px;
+        box-sizing: border-box;
+
+        &_friends {
+            height: 62px;
+            flex-grow: 1;
+            background: url("../images/friends_bg.png");
+            background-repeat: no-repeat;
+            background-size: contain;
+            max-width: 526px;
+            //background: -webkit-linear-gradient(180deg, rgb(100, 193, 207), rgb(10, 113, 134));
+            //background: -moz-linear-gradient(180deg, rgb(100, 193, 207), rgb(10, 113, 134));
+            //background: linear-gradient(180deg, rgb(100, 193, 207), rgb(10, 113, 134));
+            //border-radius: 20px;
+            //outline: 2px solid rgb(100, 193, 207);
+            //border: 2px solid rgb(10, 113, 134);
+            //border-bottom: 2px solid rgb(10, 113, 134);
+
+        }
+    }
+
+
+}
+.friends {
+
+
+
+
+    &__slider {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        //width: 536px;
+        width: 100%;
+        height: 100%;
+        padding: 0 10px;
+        &_btn {
+            cursor: pointer;
+            transition: all 0.1s;
+            width: 15px;
+            height: 26px;
+
+            &:hover {
+                scale: 1.05;
+            }
+
+            &:active {
+                scale: 1;
+            }
+        }
+
+
+        &_wrapper {
+            flex-grow: 1;
+            overflow-x: hidden;
+            position: relative;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        &_track {
+            display: flex;
+            //gap: 8px;
+            width: max-content;
+        }
+
+
+    }
+
+    &__slide {
+        width: 50px;
+        height: 50px;
+        border-radius: 5px;
+        background: -webkit-linear-gradient(180deg, rgb(198, 92, 35) 7%, rgb(158, 69, 22) 25%, rgb(158, 69, 22) 75%, rgb(198, 92, 35) 95%);
+        background: -moz-linear-gradient(180deg, rgb(198, 92, 35) 7%, rgb(158, 69, 22) 25%, rgb(158, 69, 22) 75%, rgb(198, 92, 35) 95%);
+        background: linear-gradient(180deg, rgb(198, 92, 35) 7%, rgb(158, 69, 22) 25%, rgb(158, 69, 22) 75%, rgb(198, 92, 35) 95%);
+        border: 2px solid rgb(158, 69, 22);
+        position: relative;
+
+        &.with_friend {
+            //background-image: url("../images/friend.png"), linear-gradient(180deg, rgb(198, 92, 35) 7%, rgb(158, 69, 22) 25%, rgb(158, 69, 22) 75%, rgb(198, 92, 35) 95%);
+            //background-size: ;
+            //background-position: center bottom;
+            //background-repeat: no-repeat;
+            &::before {
+                content: '';
+                position: absolute;
+                background: url("../images/friend.png");
+                width: 28px;
+                height: 38px;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+        }
+
+        &.with_plus {
+            &::after {
+                content: '';
+                position: absolute;
+                background: url("../images/plus_icon.png");
+                width: 22px;
+                height: 22px;
+                top: -6px;
+                right: -6px;
+            }
+        }
+    }
+
+
+
+}
+.points {
+    position: relative;
+}
+
+.point {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 14px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    transform: translateY(-50%) translateX(-50%);
+    transition: scale 0.2s;
+    transform-origin: center;
+    background-image: url("../images/darkPoint.png");
+
+    &:hover {
+        scale: 1.05;
+    }
+
+    &.start {
+        background-image: url("../images/startPoint.png");
+        width: 35px;
+        height: 25px;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+    &.startEtap {
+        background-image: url("../images/startEtapPoint.png");
+        width: 25px;
+        height: 17px;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    &.finish {
+        background-image: url("../images/finishPoint.png");
+        width: 25px;
+        height: 17px;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+}
+.hero {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translateX(-50%) translateY(-100%);
+    width: 21px;
+    height: 70px;
+
+    & img {
+        height: 100%;object-fit: cover;
+        width: 100%;
+    }
+}
+.chat_btn {
+    background-image: url("../images/chat.png");
+    width: 66px;
+    height: 62px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    transition: all 0.2s;
+    will-change: all;
+
+
+    &:hover {
+        transform: translateY(-3px);
+    }
+
+    &:active {
+        scale: 0.98;
+    }
+}
+.play_btn {
+    font-size: 32px;
+    font-family: "Cambria";
+    color: rgb(252, 250, 249);
+    line-height: 0.9;
+    text-align: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-shadow: 0.5px 0.866px 3px rgba(33, 30, 31, 0.004);
+    height: 62px;
+    width: 196px;
+    background-image: url("../images/play_btn.png");
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+        transform: translateY(-3px);
+    }
+
+    &:active {
+        scale: 0.98;
+    }
+    user-select: none;
+}
+
+.notice_btn {
+    background-image: url("../images/notice.png");
+    width: 66px;
+    height: 62px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    transition: all 0.2s;
+    will-change: all;
+
+
+    &:hover {
+        transform: translateY(-3px);
+    }
+
+    &:active {
+        scale: 0.98;
+    }
+}
+
+.rating_btn {
+    background-image: url("../images/rating.png");
+    width: 66px;
+    height: 62px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    transition: all 0.2s;
+    will-change: all;
+
+
+    &:hover {
+        transform: translateY(-3px);
+    }
+
+    &:active {
+        scale: 0.98;
+    }
 }
