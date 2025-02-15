@@ -27,8 +27,36 @@ export class Game {
 				prev: slider.closest('.friends__slider').querySelector('.prev_btn'),
 				next: slider.closest('.friends__slider').querySelector('.next_btn')
 			},
-			speed:700
+			speed:500
 		}).init()
+		document.addEventListener('click', function (e){
+			const tl = gsap.timeline()
+			if (e.target.closest('.rating_btn')) {
+				tl.to('.popup', {
+					opacity:1, visibility: 'visible'
+				})
+					.to('#rating', {
+						y: 0
+					}, '<')
+			}
+
+			if (e.target.closest('.btn_close')) {
+				tl
+					.to('#rating', {
+						y: '-150px'
+					})
+					.to('.popup', {
+					opacity: 0, delay:.2
+				},'<')
+					.to('.popup', {
+						 visibility: 'hidden'
+					})
+			}
+
+
+
+		})
+		this.parseRating()
 	}
 
 	setHeroPosition(startPosition = undefined){
@@ -41,24 +69,74 @@ export class Game {
 
 	}
 
+	async getUsers(){
+		try {
+			const response = await fetch('./static/data/data.json',{
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				}
+			})
+			const data = await response.json()
+			return data
+		} catch (e) {
+			console.log(e.message)
+		}
+	}
 
+	async parseRating(){
+		const {rating, friends} = await this.getUsers()
+		const ratingList = document.querySelector('.rating__list')
+		rating.sort((a, b) => b.points - a.points)
+		rating.forEach((item, index) => {
+			const ratingItem = document.createElement('div')
+			ratingItem.classList.add('rating__item')
+			if (friends.findIndex(el=>el.id === item.id) !== -1) {
+				ratingItem.classList.add('is_friend')
+			}
+			const ratingNum = document.createElement('div')
+			ratingNum.classList.add('rating__item_num')
+			ratingNum.textContent = index + 1
+			const ratingPlayer = document.createElement('div')
+			ratingPlayer.classList.add('rating__item_player')
+			const ratingPlayerIcon = document.createElement('div')
+			ratingPlayerIcon.classList.add('icon')
+			const icon = document.createElement('img')
+			icon.src = item.img
+			const ratingPlayerName = document.createElement('span')
+			ratingPlayerName.textContent = `${item.name} ${item.lastName}`
+			ratingPlayer.appendChild(ratingPlayerIcon)
+			ratingPlayer.appendChild(ratingPlayerName)
+
+			const ratingExperience = document.createElement('div')
+			ratingExperience.classList.add('rating__item_experience')
+			ratingExperience.textContent = item.points
+
+			ratingItem.appendChild(ratingNum)
+			ratingItem.appendChild(ratingPlayer)
+			ratingItem.appendChild(ratingExperience)
+			ratingList.appendChild(ratingItem)
+		})
+		// const rating
+	}
 
 	jump(newPosition) {
-		console.log(newPosition)
 		const tl = gsap.timeline()
 		const oldPosition = this.points[newPosition - 1]
-		const position = this.points[newPosition]
-		this.position = newPosition
 
-		tl
-			// .from(this.hero, {left: oldPosition.x + 'px', top: oldPosition.y + 'px', yPercent: -100})
-			// .to(this.hero,{ y: '-110%'})
-			.to(this.hero,{  keyframes: {
-					"0%":   { left: oldPosition.x + 'px', top: oldPosition.y + 'px'},
-					"50%":  { translateY: '-120%', scale: 1.2}, // finetune with individual eases
-					"100%": { left: position.x + 'px', top: position.y + 'px',translateY: '-100%', scale:1 },
-				},})
-			// .to(this.hero,{left: position.x + 'px', top: position.y + 'px', translateY: ['-100%','-110%','-100%']}, '<')
+		const position = this.points[newPosition]
+		if (position) {
+			this.position = newPosition
+
+			tl
+				.to(this.hero, {
+					keyframes: {
+						"0%": {left: oldPosition.x + 'px', top: oldPosition.y + 'px'},
+						"50%": {translateY: '-120%', scale: 1.2}, // finetune with individual eases
+						"100%": {left: position.x + 'px', top: position.y + 'px', translateY: '-100%', scale: 1},
+					},
+				})
+		}
 	}
 
 	renderMap() {
@@ -120,15 +198,22 @@ class Slider {
 		this.options.navigation.next.addEventListener('click', ()=>{
 			this.slideNext()
 		})
+		console.log(this)
 	}
 
 	slideNext(){
 		const tl = gsap.timeline()
 		const viewSlides = this.options.slidesPerView
 		const sliderWidth = this.slider.getBoundingClientRect().width - (this.options.spaceBetween * (viewSlides - 1))
+		const trackWidth = this.track.getBoundingClientRect().width
 		const slideWidth = sliderWidth / viewSlides
 		const translateWidth = slideWidth + this.options.spaceBetween
-		this.trackPosition -= translateWidth
+		if (Math.abs(this.trackPosition) > trackWidth - this.slider.getBoundingClientRect().width) {
+
+			this.trackPosition = 0
+		}else {
+			this.trackPosition -= translateWidth
+		}
 		tl.to(this.track, {translateX: this.trackPosition, duration: this.options.speed / 1000
 		})
 	}
@@ -138,6 +223,7 @@ class Slider {
 		const sliderWidth = this.slider.getBoundingClientRect().width - (this.options.spaceBetween * (viewSlides - 1))
 		const slideWidth = sliderWidth / viewSlides
 		const translateWidth = slideWidth + this.options.spaceBetween
+		if (this.trackPosition + translateWidth > 0) return
 		this.trackPosition += translateWidth
 		tl.to(this.track, {translateX: this.trackPosition, duration: this.options.speed / 1000
 		})
