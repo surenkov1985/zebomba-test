@@ -208,7 +208,7 @@ class Slider {
 		const trackWidth = this.track.getBoundingClientRect().width
 		const slideWidth = sliderWidth / viewSlides
 		const translateWidth = slideWidth + this.options.spaceBetween
-		if (Math.abs(this.trackPosition) > trackWidth - this.slider.getBoundingClientRect().width) {
+		if (Math.abs(this.trackPosition - translateWidth) > trackWidth - this.slider.getBoundingClientRect().width) {
 
 			this.trackPosition = 0
 		}else {
