@@ -32,10 +32,10 @@ const build = {
 		maxAssetSize: 512000,
 	},
 	entry: {
-		index: ["@babel/polyfill", "./index.js"],
+		index: ["@babel/polyfill", "./index.ts"],
 	},
 	resolve: {
-		extensions: [".js"],
+		extensions: [".tsx", ".ts", ".js"],
 		alias: {
 			"": path.resolve(__dirname, "src/"),
 		},
@@ -82,12 +82,11 @@ const build = {
 				},
 			},
 			{
-				test: /\.js$/,
-				exclude: /node-modules/,
+				test: /\.tsx?$/,
+				exclude: /node_modules/,
 				use: {
-					loader: "babel-loader",
+					loader: "ts-loader",
 					options: {
-						cacheDirectory: true,
 					},
 				},
 			},
