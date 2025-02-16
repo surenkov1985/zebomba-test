@@ -19,9 +19,9 @@
 	"author": "mikhail.surenkov@gmail.com",
 	"license": "ISC",
 	"bugs": {
-		"url": "https://github.com/surenkov1985/bubbles-game/issues"
+		"url": "https://github.com/surenkov1985/zebomba-test/issues"
 	},
-	"homepage": "https://github.com/surenkov1985/bubbles-game#readme",
+	"homepage": "https://github.com/surenkov1985/zebomba-test#readme",
 	"devDependencies": {
 		"@babel/core": "^7.26.8",
 		"@babel/plugin-proposal-class-properties": "^7.18.6",
