@@ -71,7 +71,7 @@ const build = {
 				test: /\.(jpg|png|svg|jpeg|gif)$/i,
 				type: "asset/resource",
 				generator: {
-					filename: "assets/img/[name][ext]",
+					filename: "assets/images/[name][ext]",
 				},
 			},
 			{

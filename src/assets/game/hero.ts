@@ -20,7 +20,7 @@ export class Hero {
 		const elem = document.createElement('div')
 		elem.classList.add('hero')
 		const heroImg = document.createElement('img')
-		heroImg.src = '/assets/img/hero.png'
+		heroImg.src = '/assets/images/hero.png'
 		elem.appendChild(heroImg)
 		this.hero = elem
 
